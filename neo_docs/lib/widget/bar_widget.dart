@@ -2,26 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:neo_docs/controller/arrow_marker.dart';
 import 'package:provider/provider.dart';
 
-class Group1 extends StatefulWidget {
-  const Group1({Key? key}) : super(key: key);
+class Group1 extends StatelessWidget {
+  Group1({Key? key}) : super(key: key);
 
-  @override
-  // ignore: library_private_types_in_public_api
-  _Group1State createState() => _Group1State();
-}
-
-class _Group1State extends State<Group1> {
   final TextEditingController _textController = TextEditingController();
 
   void _updateArrowPosition(BuildContext context) {
     double enteredValue = double.tryParse(_textController.text) ?? 0;
     double arrowPosition = 0;
     if (enteredValue >= 0 && enteredValue <= 30) {
-      arrowPosition = (enteredValue / 30) * 67;
+      arrowPosition = (enteredValue / 30) * 50;
     } else if (enteredValue > 30 && enteredValue <= 40) {
-      arrowPosition = 67 + ((enteredValue - 30) / 10) * 40;
+      arrowPosition = 67 + ((enteredValue - 30) / 10) * 15;
     } else if (enteredValue > 40 && enteredValue <= 70) {
       arrowPosition = 107 + ((enteredValue - 40) / 30) * 80;
+    } else if (enteredValue > 60 && enteredValue <= 70) {
+      arrowPosition = 107 + ((enteredValue - 60) / 10) * 25;
     } else if (enteredValue > 70 && enteredValue <= 120) {
       arrowPosition = 187 + ((enteredValue - 70) / 50) * 116;
     }
@@ -137,19 +133,44 @@ class _Group1State extends State<Group1> {
             const SizedBox(
               height: 35,
             ),
-            TextField(
-              controller: _textController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                hintText: 'Enter a number',
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () => _updateArrowPosition(context),
-              child: const Text('Show Arrow'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 200,
+                  height: 50,
+                  child: TextFormField(
+                    controller: _textController,
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a number';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                      hintText: "Enter the number",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 17,
+                ),
+                IconButton(
+                  onPressed: () {
+                    _updateArrowPosition(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_circle_right,
+                    size: 50,
+                  ),
+                ),
+              ],
             ),
           ],
         );
