@@ -3,8 +3,8 @@ import 'package:neo_docs/controller/arrow_marker.dart';
 import 'package:neo_docs/model/test_section_model.dart';
 import 'package:provider/provider.dart';
 
-class Group1 extends StatelessWidget {
-  Group1({Key? key, required this.testMetadata}) : super(key: key);
+class BarWidget extends StatelessWidget {
+  BarWidget({Key? key, required this.testMetadata}) : super(key: key);
 
   final TextEditingController _textController = TextEditingController();
   final List<TestSection> testMetadata;
@@ -21,9 +21,10 @@ class Group1 extends StatelessWidget {
     } else if (enteredValue > 40 && enteredValue <= 70) {
       arrowPosition = 107 + ((enteredValue - 40) / 30) * 80;
     } else if (enteredValue > 60 && enteredValue <= 70) {
-      arrowPosition = 107 + ((enteredValue - 60) / 10) * 25;
+      arrowPosition = 107 +
+          ((enteredValue - 60) / 10) * 20; // Adjusted the factor from 25 to 20
     } else if (enteredValue > 70 && enteredValue <= 120) {
-      arrowPosition = 187 + ((enteredValue - 70) / 50) * 116;
+      arrowPosition = 187 + ((enteredValue - 60) / 60) * 116;
     }
     Provider.of<ArrowPositionProvider>(context, listen: false)
         .updateArrowPosition(arrowPosition);
@@ -40,7 +41,7 @@ class Group1 extends StatelessWidget {
             children: [
               SizedBox(
                 width: 343,
-                height: 72,
+                height: 132,
                 child: Stack(
                   children: [
                     for (int i = 0; i < testMetadata.length; i++)
@@ -82,14 +83,52 @@ class Group1 extends StatelessWidget {
                       ],
                     ),
                     Positioned(
+                      bottom: 10,
                       left: arrowPositionProvider.arrowPosition,
                       top: 0,
-                      child: Container(
-                          margin: const EdgeInsets.only(top: 49, left: 0),
-                          child: const Icon(
-                            Icons.arrow_drop_up,
-                            size: 35,
-                          )),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 52),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: 27,
+                                  height: 27,
+                                  decoration: const ShapeDecoration(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    shape: StarBorder.polygon(sides: 3),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 20,
+                                    left: _textController.text.length == 1
+                                        ? 10
+                                        : (_textController.text.length == 3
+                                            ? 2
+                                            : 6),
+                                  ),
+                                  child: Text(
+                                    _textController.text.isNotEmpty
+                                        ? _textController.text
+                                        : "0",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign
+                                        .center, // Align text to the center horizontally
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: const Text('Home'),
+        title: const Text(''),
       ),
       body: SafeArea(
         child: Padding(
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Group1(
+              BarWidget(
                 testMetadata: [
                   for (final item in [3, 5, 10, 20, 34, 67, 107, 187, 227])
                     TestSection(
