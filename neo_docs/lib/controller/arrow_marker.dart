@@ -5,7 +5,9 @@ class ArrowPositionProvider extends ChangeNotifier {
 
   double get arrowPosition => _arrowPosition;
 
-  void updateArrowPosition(double newPosition) {
+  void updateArrowPosition(
+    double newPosition,
+  ) {
     _arrowPosition = newPosition;
     notifyListeners();
   }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:neo_docs/model/test_section_model.dart';
 import 'package:neo_docs/widget/bar_widget.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({
-    Key? key,
-  }) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,24 +20,29 @@ class HomeScreen extends StatelessWidget {
             children: [
               Group1(
                 testMetadata: [
-                  TestSection(width: 3, color: const Color(0xFFFB0000)),
-                  TestSection(width: 5, color: const Color(0xFFFB0000)),
-                  TestSection(width: 10, color: const Color(0xFFFB0000)),
-                  TestSection(width: 20, color: const Color(0xFFFB0000)),
-                  TestSection(width: 34, color: const Color(0xFFFB0000)),
-                  TestSection(width: 67, color: const Color(0xFFE99416)),
-                  TestSection(width: 107, color: const Color(0xFF0EBD15)),
-                  TestSection(width: 187, color: const Color(0xFFE99416)),
-                  TestSection(width: 227, color: const Color(0xFFFB0000)),
+                  for (final item in [3, 5, 10, 20, 34, 67, 107, 187, 227])
+                    TestSection(
+                        width: item.toDouble(),
+                        color: _getColorForWidth(item.toDouble())),
                 ],
               ),
-              const SizedBox(
-                height: 40,
-              ),
+              const SizedBox(height: 40),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Color _getColorForWidth(double width) {
+    if (width == 67) {
+      return const Color(0xFFE99416);
+    } else if (width == 107) {
+      return const Color(0xFF0EBD15);
+    } else if (width == 187) {
+      return const Color(0xFFE99416);
+    } else {
+      return const Color(0xFFFB0000);
+    }
   }
 }

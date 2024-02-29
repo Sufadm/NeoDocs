@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:neo_docs/controller/arrow_marker.dart';
+import 'package:neo_docs/model/test_section_model.dart';
 import 'package:provider/provider.dart';
-
-class TestSection {
-  final double width;
-  final Color color;
-
-  TestSection({required this.width, required this.color});
-}
 
 class Group1 extends StatelessWidget {
   Group1({Key? key, required this.testMetadata}) : super(key: key);
 
   final TextEditingController _textController = TextEditingController();
   final List<TestSection> testMetadata;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void _updateArrowPosition(BuildContext context) {
     double enteredValue = double.tryParse(_textController.text) ?? 0;
@@ -38,108 +33,117 @@ class Group1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ArrowPositionProvider>(
       builder: (context, arrowPositionProvider, _) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 343,
-              height: 72,
-              child: Stack(
-                children: [
-                  for (int i = 0; i < testMetadata.length; i++)
+        return Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 343,
+                height: 72,
+                child: Stack(
+                  children: [
+                    for (int i = 0; i < testMetadata.length; i++)
+                      Positioned(
+                        left: testMetadata[i].width,
+                        top: 19,
+                        child: Container(
+                          width: testMetadata[i].width,
+                          height: 33,
+                          decoration: BoxDecoration(
+                            color: testMetadata[i].color,
+                          ),
+                        ),
+                      ),
+                    Row(
+                      children: [
+                        Container(
+                            margin: const EdgeInsets.only(left: 50),
+                            child: const Text("30")),
+                        Container(
+                            margin: const EdgeInsets.only(left: 100),
+                            child: const Text("60")),
+                        Container(
+                            margin: const EdgeInsets.only(left: 120),
+                            child: const Text("120")),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                            margin: const EdgeInsets.only(top: 50),
+                            child: const Text("0")),
+                        Container(
+                            margin: const EdgeInsets.only(top: 50, left: 80),
+                            child: const Text("40")),
+                        Container(
+                            margin: const EdgeInsets.only(top: 50, left: 120),
+                            child: const Text("70")),
+                      ],
+                    ),
                     Positioned(
-                      left: testMetadata[i].width,
-                      top: 19,
+                      left: arrowPositionProvider.arrowPosition,
+                      top: 0,
                       child: Container(
-                        width: testMetadata[i].width,
-                        height: 33,
-                        decoration: BoxDecoration(
-                          color: testMetadata[i].color,
+                          margin: const EdgeInsets.only(top: 49, left: 0),
+                          child: const Icon(
+                            Icons.arrow_drop_up,
+                            size: 35,
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 55,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    height: 65,
+                    child: TextFormField(
+                      maxLength: 3,
+                      controller: _textController,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a number';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                        hintText: "Enter the number",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                       ),
                     ),
-                  Row(
-                    children: [
-                      Container(
-                          margin: const EdgeInsets.only(left: 50),
-                          child: const Text("30")),
-                      Container(
-                          margin: const EdgeInsets.only(left: 100),
-                          child: const Text("60")),
-                      Container(
-                          margin: const EdgeInsets.only(left: 120),
-                          child: const Text("120")),
-                    ],
                   ),
-                  Row(
-                    children: [
-                      Container(
-                          margin: const EdgeInsets.only(top: 50),
-                          child: const Text("0")),
-                      Container(
-                          margin: const EdgeInsets.only(top: 50, left: 80),
-                          child: const Text("40")),
-                      Container(
-                          margin: const EdgeInsets.only(top: 50, left: 120),
-                          child: const Text("70")),
-                    ],
+                  const SizedBox(
+                    width: 17,
                   ),
-                  Positioned(
-                    left: arrowPositionProvider.arrowPosition,
-                    top: 0,
-                    child: Container(
-                        margin: const EdgeInsets.only(top: 49, left: 0),
-                        child: const Icon(
-                          Icons.arrow_drop_up,
-                          size: 35,
-                        )),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 35,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 200,
-                  height: 50,
-                  child: TextFormField(
-                    controller: _textController,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a number';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                      hintText: "Enter the number",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 17),
+                    child: IconButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          _updateArrowPosition(context);
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.arrow_circle_right,
+                        size: 50,
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 17,
-                ),
-                IconButton(
-                  onPressed: () {
-                    _updateArrowPosition(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_circle_right,
-                    size: 50,
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         );
       },
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neo_docs/controller/arrow_marker.dart';
 import 'package:neo_docs/view/home_screen.dart';
-import 'package:neo_docs/widget/bar_widget.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
       create: (context) => ArrowPositionProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'NeoDocsTask',
+        title: 'NeoDocs_Task',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
