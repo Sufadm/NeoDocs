@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:neo_docs/controller/arrow_marker.dart';
 import 'package:provider/provider.dart';
 
+class TestSection {
+  final double width;
+  final Color color;
+
+  TestSection({required this.width, required this.color});
+}
+
 class Group1 extends StatelessWidget {
-  Group1({Key? key}) : super(key: key);
+  Group1({Key? key, required this.testMetadata}) : super(key: key);
 
   final TextEditingController _textController = TextEditingController();
+  final List<TestSection> testMetadata;
 
   void _updateArrowPosition(BuildContext context) {
     double enteredValue = double.tryParse(_textController.text) ?? 0;
     double arrowPosition = 0;
+
     if (enteredValue >= 0 && enteredValue <= 30) {
       arrowPosition = (enteredValue / 30) * 50;
     } else if (enteredValue > 30 && enteredValue <= 40) {
@@ -37,60 +46,18 @@ class Group1 extends StatelessWidget {
               height: 72,
               child: Stack(
                 children: [
-                  Positioned(
-                    left: 0,
-                    top: 19,
-                    child: Container(
-                      width: 343,
-                      height: 33,
-                      decoration: const BoxDecoration(color: Color(0xFFD9D9D9)),
+                  for (int i = 0; i < testMetadata.length; i++)
+                    Positioned(
+                      left: testMetadata[i].width,
+                      top: 19,
+                      child: Container(
+                        width: testMetadata[i].width,
+                        height: 33,
+                        decoration: BoxDecoration(
+                          color: testMetadata[i].color,
+                        ),
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    top: 19,
-                    child: Container(
-                      width: 67,
-                      height: 33,
-                      decoration: const BoxDecoration(color: Color(0xFFFB0000)),
-                    ),
-                  ),
-                  Positioned(
-                    left: 227,
-                    top: 19,
-                    child: Container(
-                      width: 116,
-                      height: 33,
-                      decoration: const BoxDecoration(color: Color(0xFFFB0000)),
-                    ),
-                  ),
-                  Positioned(
-                    left: 67,
-                    top: 19,
-                    child: Container(
-                      width: 40,
-                      height: 33,
-                      decoration: const BoxDecoration(color: Color(0xFFE99416)),
-                    ),
-                  ),
-                  Positioned(
-                    left: 187,
-                    top: 19,
-                    child: Container(
-                      width: 40,
-                      height: 33,
-                      decoration: const BoxDecoration(color: Color(0xFFE99416)),
-                    ),
-                  ),
-                  Positioned(
-                    left: 107,
-                    top: 19,
-                    child: Container(
-                      width: 80,
-                      height: 33,
-                      decoration: const BoxDecoration(color: Color(0xFF0EBD15)),
-                    ),
-                  ),
                   Row(
                     children: [
                       Container(
