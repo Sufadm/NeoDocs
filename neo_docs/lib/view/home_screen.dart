@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neo_docs/model/test_section_model.dart';
-import 'package:neo_docs/widget/bar_widget.dart';
+import 'package:neo_docs/view/widget/bar_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

@@ -24,6 +24,8 @@ class BarWidget extends StatelessWidget {
       arrowPosition = 107 + ((enteredValue - 60) / 10) * 20;
     } else if (enteredValue > 70 && enteredValue <= 120) {
       arrowPosition = 187 + ((enteredValue - 60) / 60) * 116;
+    } else {
+      arrowPosition = ArrowPositionProvider().arrowPosition;
     }
     Provider.of<ArrowPositionProvider>(context, listen: false)
         .updateArrowPosition(arrowPosition);
@@ -167,8 +169,21 @@ class BarWidget extends StatelessWidget {
                     margin: const EdgeInsets.only(bottom: 17),
                     child: IconButton(
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          _updateArrowPosition(context);
+                        if (_textController.text.isNotEmpty) {
+                          double enteredValue =
+                              double.tryParse(_textController.text)!;
+                          if (enteredValue <= 120 && enteredValue >= 0) {
+                            if (formKey.currentState!.validate()) {
+                              _updateArrowPosition(context);
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text(
+                                      'Entered value should be greater than 0 or less than 120')),
+                            );
+                          }
                         }
                       },
                       icon: const Icon(
