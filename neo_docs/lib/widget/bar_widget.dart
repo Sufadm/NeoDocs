@@ -21,8 +21,7 @@ class BarWidget extends StatelessWidget {
     } else if (enteredValue > 40 && enteredValue <= 70) {
       arrowPosition = 107 + ((enteredValue - 40) / 30) * 80;
     } else if (enteredValue > 60 && enteredValue <= 70) {
-      arrowPosition = 107 +
-          ((enteredValue - 60) / 10) * 20; // Adjusted the factor from 25 to 20
+      arrowPosition = 107 + ((enteredValue - 60) / 10) * 20;
     } else if (enteredValue > 70 && enteredValue <= 120) {
       arrowPosition = 187 + ((enteredValue - 60) / 60) * 116;
     }
@@ -120,8 +119,7 @@ class BarWidget extends StatelessWidget {
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    textAlign: TextAlign
-                                        .center, // Align text to the center horizontally
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ],

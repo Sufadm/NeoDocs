@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              //Bar widget--
               BarWidget(
                 testMetadata: [
                   for (final item in [3, 5, 10, 20, 34, 67, 107, 187, 227])
